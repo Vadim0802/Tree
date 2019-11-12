@@ -197,28 +197,6 @@ public:
 		}
 	}
 
-	void postorder(Node* p, int indent = 0)
-	{
-		if (p != NULL) {
-			if (p->right) {
-				postorder(p->right, indent + 4);
-			}
-			if (indent) {
-				std::cout << std::setw(indent) << ' ';
-			}
-			if (p->right) std::cout << " /\n" << std::setw(indent) << ' ';
-			std::cout << p->key << "\n ";
-			if (p->left) {
-				std::cout << std::setw(indent) << ' ' << " \\\n";
-				postorder(p->left, indent + 4);
-			}
-		}
-	}
-
-	void print_postorder()
-	{
-		postorder(root);
-	}
 };
 
 int main()
@@ -245,5 +223,4 @@ int main()
 	t.Delete_node(2);
 	t.Delete_node(15);
 
-	t.print_postorder();
 }
