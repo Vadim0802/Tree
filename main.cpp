@@ -5,11 +5,9 @@
 #include <deque>
 using namespace std;
 
-class BST
-{
+class BST {
 private:
-	struct Node
-	{
+	struct Node {
 		int key;
 		Node* left;
 		Node* right;
@@ -17,37 +15,27 @@ private:
 	};
 	Node* root;
 
-	Node* FindNodePrivate(int key)
-	{
+	Node* FindNodePrivate(int key) {
 		Node* curr = root;
-		if (root != nullptr)
-		{
-			while (curr != nullptr)
-			{
-				if (key == curr->key)
-				{
+		if (root != nullptr) {
+			while (curr != nullptr) {
+				if (key == curr->key) {
 					break;
 				}
-				else if (key > curr->key)
-				{
-					if (curr->right != nullptr)
-					{
+				else if (key > curr->key) {
+					if (curr->right != nullptr) {
 						curr = curr->right;
 					}
-					else
-					{
+					else {
 						curr = nullptr;
 						break;
 					}
 				}
-				else if(key < curr->key)
-				{
-					if (curr->left != nullptr)
-					{
+				else if(key < curr->key) {
+					if (curr->left != nullptr) {
 						curr = curr->left;
 					}
-					else
-					{
+					else {
 						curr = nullptr;
 						break;
 					}
@@ -57,10 +45,8 @@ private:
 		return curr;
 	}
 
-	void Delete_NodePrivate(Node* t)
-	{
-		if (t != nullptr)
-		{
+	void Delete_NodePrivate(Node* t) {
+		if (t != nullptr) {
 			Delete_NodePrivate(t->right);
 			Delete_NodePrivate(t->left);
 			delete t;
@@ -68,39 +54,30 @@ private:
 	}
 
 public:
-	BST()
-	{
+	BST() {
 		root = nullptr;
 	}
-	~BST()
-	{
+	~BST() {
 		Delete_Tree();
 	}
 
-	void Add_elem(int key)
-	{
+	void Add_elem(int key) {
 		Node* t = new Node;
 		t->key = key;
-		if (root == nullptr)
-		{
+		if (root == nullptr) {
 			root = t;
 			t->right = nullptr;
 			t->left = nullptr;
 			t->parent = nullptr;
 		}
-		else
-		{
+		else {
 			Node* curr = root;
-			while (curr)
-			{
-				if (t->key < curr->key)
-				{
-					if (curr->left != nullptr)
-					{
+			while (curr) {
+				if (t->key < curr->key) {
+					if (curr->left != nullptr) {
 						curr = curr->left;
 					}
-					else
-					{
+					else {
 						curr->left = t;
 						t->right = nullptr;
 						t->left = nullptr;
@@ -108,14 +85,11 @@ public:
 						break;
 					}
 				}
-				else if(t->key > curr->key)
-				{
-					if (curr->right != nullptr)
-					{
+				else if(t->key > curr->key) {
+					if (curr->right != nullptr) {
 						curr = curr->right;
 					}
-					else
-					{
+					else {
 						curr->right = t;
 						t->right = nullptr;
 						t->left = nullptr;
@@ -123,8 +97,7 @@ public:
 						break;
 					}
 				}
-				else
-				{
+				else {
 					cout << "This element [" << t->key << "] has already added in the Tree!\n";
 					delete t;
 					break;
@@ -133,110 +106,80 @@ public:
 		}
 	}
 
-	void Find(int key)
-	{
+	void Find(int key) {
 		Node* t = root;
-		if (root == nullptr)
-		{
+		if (root == nullptr) {
 			cout << "This Tree is empty!\n";
 		}
-		else
-		{
-			while (t)
-			{
-				if (t->key == key)
-				{
+		else {
+			while (t) {
+				if (t->key == key) {
 					cout << "Element [" << key << "] find\n";
 					break;
 				}
-				else if (key < t->key)
-				{
-					if (t->left != nullptr)
-					{
+				else if (key < t->key) {
+					if (t->left != nullptr) {
 						t = t->left;
 					}
-					else
-					{
+					else {
 						cout << "Element [" << key << "] not find!\n";
 						break;
 					}
 				}
-				else
-				{
-					if (t->right != nullptr)
-					{
+				else {
+					if (t->right != nullptr) {
 						t = t->right;
 					}
-					else
-					{
+					else {
 						cout << "Element [" << key << "] not find!\n";
 						break;
 					}
 				}
-
 			}
 		}
 	}
 
-	void Delete_node(int key)
-	{
+	void Delete_node(int key) {
 		Node* curr = FindNodePrivate(key);
-		//A non existent element
-		if (curr == nullptr)
-		{
+		if (curr == nullptr) {
 			cout << "This element is not in the tree!" << endl;
 			return;
 		}
 
-		//Node without child
-		if (curr->left == nullptr && curr->right == nullptr)
-		{
-			if (curr->parent == nullptr)
-			{
+		if (curr->left == nullptr && curr->right == nullptr) {
+			if (curr->parent == nullptr) {
 				delete curr;
 				root = nullptr;
 				return;
 			}
-			else
-			{
+			else {
 				if ((curr->parent)->left == curr)		
-				{
 					(curr->parent)->left = nullptr;
-				}
 				else
-				{
 					(curr->parent)->right = nullptr;
-				}
 				delete curr;
 				return;
 			}
 			
 		}
-		//Node with single child
-		if ((curr->left == nullptr && curr->right != nullptr) || (curr->left != nullptr && curr->right == nullptr))
-		{
-			if (curr->left == nullptr && curr->right != nullptr)
-			{
-				if (curr->parent->left == curr)
-				{
+		
+		if ((curr->left == nullptr && curr->right != nullptr) || (curr->left != nullptr && curr->right == nullptr)) {
+			if (curr->left == nullptr && curr->right != nullptr) {
+				if (curr->parent->left == curr) {
 					curr->parent->left = curr->right;
 					delete curr;
 				}
-				else if(curr->parent->right == curr)
-				{
+				else if(curr->parent->right == curr) {
 					curr->parent->right = curr->right;
 					delete curr;
 				}
 			}
-			else if (curr->left != nullptr && curr->right == nullptr)
-			{
-				if (curr->parent->left == curr)
-				{
+			else if (curr->left != nullptr && curr->right == nullptr) {
+				if (curr->parent->left == curr) {
 					curr->parent->left = curr->left;
 					delete curr;
 				}
-				else if (curr->parent->right == curr)
-				{
+				else if (curr->parent->right == curr) {
 					curr->parent->right = curr->left;
 					delete curr;
 				}
@@ -244,33 +187,30 @@ public:
 			
 			return;
 		}
-		//Node with two child
-		if (curr->left != nullptr && curr->right != nullptr)
-		{
+
+		if (curr->left != nullptr && curr->right != nullptr) {
 			Node* ch = curr->right;
-			if ((ch->left == nullptr) && (ch->right == nullptr))
-			{
+			
+			if ((ch->left == nullptr) && (ch->right == nullptr)) {
 				curr->key = ch->key;
 				curr->right = nullptr;
 				delete ch;
 			}
-			else
-			{
-				if ((curr->right)->left != nullptr)
-				{
+			else {
+				if ((curr->right)->left != nullptr) {
 					Node* lcurr = (curr->right)->left;
-					while (lcurr->left != nullptr)
-					{
+					
+					while (lcurr->left != nullptr) {
 						lcurr->parent = curr->right;
 						lcurr = lcurr->left;
 					}
+					
 					curr->key = lcurr->key;
 					(lcurr->parent)->left = nullptr;
 					delete lcurr;
 					
 				}
-				else
-				{
+				else {
 					Node* tmp = curr->right;
 					curr->key = tmp->key;
 					curr->right = tmp->right;
@@ -281,103 +221,75 @@ public:
 		}
 	}
 
-	void Delete_Tree()
-	{
-		if (root != nullptr)
-		{
+	void Delete_Tree() {
+		if (root != nullptr) {
 			Node* t = root;
 			Delete_NodePrivate(root);
 			root = nullptr;
 		}
-		else
-		{
+		else {
 			cout << "This Tree is empty!\n";
 		}
 	}
 
-	void Min_Value()
-	{
+	void Min_Value() {
 		Node* x = root;
-		if (x == nullptr)
-		{
+		if (x == nullptr) {
 			cout << "This list is empty!\n";
 		}
-		else
-		{
-			if (x->left != nullptr)
-			{
-				while (1)
-				{
-					if (x->left != nullptr)
-					{
-						//x->left->parent = x;
+		else {
+			if (x->left != nullptr) {
+				while (1) {
+					if (x->left != nullptr) {
 						x = x->left;
 					}
-					else
-					{
+					else {
 						cout << "Min elem = [" << x->key << "].\n";
 						return;
 					}
 				}
 			}
-			else
-			{
+			else {
 				cout << "Min elem = [" << x->key << "].\n";
 			}
 		}
 	}
 
-	void Max_Value()
-	{
+	void Max_Value() {
 		Node* x = root;
-		if (x == nullptr)
-		{
+		if (x == nullptr) {
 			cout << "This list is empty!\n";
 		}
-		else
-		{
-			if (x->right != nullptr)
-			{
-				while (1)
-				{
-					if (x->right != nullptr)
-					{
-						//x->right->parent = x;
+		else {
+			if (x->right != nullptr) {
+				while (1) {
+					if (x->right != nullptr) {
 						x = x->right;
 					}
-					else
-					{
+					else {
 						cout << "Max elem = [" << x->key << "].\n";
 						return;
 					}
 				}
 			}
-			else
-			{
+			else {
 				cout << "Max elem = [" << x->key << "].\n";
 			}
 		}
 	}
 
-	void Print_Tree_In_0rder(Node* root, int indent = 5)
-	{
-		if (root != nullptr) 
-		{
+	void Print_Tree_In_0rder(Node* root, int indent = 5) {
+		if (root != nullptr)  {
 			if (root->right) 
-			{
 				Print_Tree_In_0rder(root->right, indent + 5);
-			}
 			if (indent) 
-			{
 				cout << setw(indent) << " ";
-			}
 			if (root->right)
-			{
 				cout << " /\n" << setw(indent) << " ";
-			}
+			
 			cout << root->key << "\n ";
-			if (root->left)
-			{
+			
+			if (root->left) {
 				cout << setw(indent) << " " << " \\\n";
 				
 				Print_Tree_In_0rder(root->left, indent + 5);
@@ -385,30 +297,24 @@ public:
 		}
 	}
 
-	void Print()
-	{
+	void Print() {
 		Print_Tree_In_0rder(root);
 	}
 
-	void Print1(Node* root)
-	{
+	void Print1(Node* root) {
 		queue<Node*> qu;
 		qu.push(root);
 		qu.push(nullptr);
 		int depth = Max_Depth(root);
-		while (true)
-		{
+		while (true) {
 			Node* curr = qu.front();
 			qu.pop();
-			if (curr != nullptr)
-			{
-				if (curr->left != nullptr)
-				{
+			if (curr != nullptr) {
+				if (curr->left != nullptr) {
 					qu.push(curr->left);
 					
 				}
-				if (curr->right != nullptr)
-				{
+				if (curr->right != nullptr) {
 					qu.push(curr->right);
 					
 				}
@@ -418,22 +324,20 @@ public:
 				for (int a = pow(2, depth - 1); a > 0; a--)
 					cout << "\t";
 			}
-			else
-			{
+			else {
 				depth--;
 				cout << "\n";
+				
 				if (qu.empty())
-				{
 					break;
-				}
+				
 				qu.push(nullptr);
 			}
 		}
 
 	}
 	
-	int Max_Depth(Node* node)
-	{
+	int Max_Depth(Node* node) {
 		if (node == NULL)
 			return 0;
 
@@ -483,7 +387,7 @@ void test_1() {
 		tree.Delete_node(1);
 		tree.Add_elem(2);
 		tree.Delete_node(2);
-		std::cout << "итерация "  << iterator << " закончилась" << std::endl;
+		std::cout << iterator << std::endl;
 	}
 }
 
@@ -497,8 +401,6 @@ void test_2() {
 }
 
 
-// удаление несуществующего элемента
-// удаление корня подветки
 void test_2_1() {
 
 	BST tree;
@@ -542,10 +444,7 @@ void test_3() {
 	tree.Add_elem(60);
 	tree.Add_elem(80);
 	
-	
 	tree.Print();
-	
-	
 }
 
 void test_0() {
@@ -557,10 +456,8 @@ void test_0() {
 	tree.Add_elem(-2);
 	tree.Add_elem(100);
 	tree.Add_elem(101);
-
 }
 
-int main()
-{
+int main() {
 	test_3();
 }
